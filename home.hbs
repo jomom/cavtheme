@@ -1,0 +1,191 @@
+{{!--
+This template is used for the posts that are marked as pages.
+--}}
+
+{{!-- This block preloads specific assets for the post page --}}
+{{#contentFor "preload"}}
+    <link rel="preload" href="{{asset "css/home.css"}}" as="style" />
+    <link rel="preload" href="{{asset "css/listing.css"}}" as="style" />
+    {{!-- <link rel="preload" href="{{asset "js/home.js"}}" as="script" /><link rel="preload" href="{{asset "css/post.css"}}" as="style" /> --}}
+    <link rel="preload" href="{{asset "js/page.js"}}" as="script" />
+{{/contentFor}}
+
+{{!-- This block loads specific styles for the post page --}}
+{{#contentFor "styles"}}
+    <link rel="stylesheet" type="text/css" href="{{asset "css/home.css"}}" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{{asset "css/listing.css"}}" media="screen" />
+    <link rel="stylesheet" type="text/css" href="{{asset "css/custom.css"}}"  />
+{{/contentFor}}
+
+{{!-- The tag below means: insert everything in this file
+into the {body} of the default.hbs template --}}
+{{!< default}}
+
+{{!-- Special header.hbs partial to generate the <header> tag --}}
+{{> header background=@site.cover_image}}
+
+
+
+<main class="main-wrap">
+    {{#page}}
+    {{!-- Inject styles of the hero image to make it responsive --}}
+    {{> hero background=@site.cover_image}}
+    <div class="m-hero__content" data-aos="fade-down">
+      <h1 class="m-hero-title bigger">{{@site.title}}</h1>
+      {{#if @site.description}}
+      <p class="m-hero-description bigger">
+        At Center For Africa Volunteers, we enable people from all walks of life to make a difference on the adventure
+        of a lifetime. Volunteering with CAV is the most affordable and regenerative way to immerse yourself in new
+        cultures and give back through travel.
+        If you ever want to make a real impact in a time of need, this is your time.
+      </p>
+      {{/if}}
+      <a href="" class="m-button outlined js-newsletter" style="color: white;border: 1px solid #fff;">LEARN MORE</a>
+    </div>
+    </section>
+    <div class="m-stats" style="padding: 20px 20px 20px 20px;">
+      <h1 style="text-align: center;">CAVS BY THE NUMBERS</h1>
+      <div style="text-align: center;">
+        <p>Donec ipsum metus, consectetur non nisi in, molestie aliquet ex. Vestibulum urna turpis</p>
+        <p>Tiverra at mi eu, maximus iaculis turpis. Sed sit amet erat ante.</p>
+      </div>
+      <div class="m-stats-numbers" style="display: flex;justify-content: space-around;">
+        <div style="text-align: center;" class="m-col-3">
+          <h2>1.5 Million</h2>
+          <hr>
+          <p>Number of Lives touched in 2020</p>
+        </div>
+        <div style="text-align: center;" class="m-col-3">
+          <h2>1.5 Million</h2>
+          <hr>
+          <p>Number of Lives touched in 2020</p>
+        </div>
+        <div style="text-align: center;" class="m-col-3">
+          <h2>1.5 Million</h2>
+          <hr>
+          <p>Number of Lives touched in 2020</p>
+        </div>
+      </div>
+      <div style="text-align: center;margin:40px 0px 20px 0px;">
+        <a href="" style="font-size: 1.125rem;font-weight:800;padding:0px 10px 0px 10px;">Learn More</a>
+        <a href="" style="font-size: 1.125rem;font-weight:800;padding:0px 10px 0px 10px;">CAV Data</a>
+      </div>
+    </div>
+
+    <div class="l-content" style="padding: 0px 0 40px;">
+      <h1 style="text-align: center;">EXPLORE</h1>
+      <p style="text-align: center;margin: 10px 5px 10px 5px;">Discover more about CAVS’ work. Click here to access a
+        collection of stories, videos,
+        publications, infographics and more</p>
+      <div class="l-wrapper aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+        <div class="l-grid centered" style="content: "";clear: both;display: block;">
+          {{!-- Featured Post --}}
+          {{#is "home"}}
+          {{#get "posts" filter="featured:true" limit="3" as |featured_post|}}
+          {{#if posts}}
+          {{#foreach posts}}
+          {{#is "post"}}
+          <div class="m-recommended-slider__item glide__slide">
+            {{/is}}
+            {{!--<h2><a href="{{url}}" title="{{title}}">{{title}}</a></h2> --}}
+            <article class="m-article-card  m-col-3 {{#unless feature_image}}no-picture{{/unless}} {{post_class}}"
+              style="float: left;">
+              <div class="m-article-card__picture">
+                <a href="{{url}}" class="m-article-card__picture-link" aria-hidden="true" tabindex="-1"></a>
+                {{#if feature_image}}
+                <img class="m-article-card__picture-background" src="{{img_url feature_image size=" m"}}" loading="lazy"
+                  alt="">
+                {{/if}}
+                <a href="{{primary_author.url}}" class="m-article-card__author js-tooltip"
+                  aria-label="{{primary_author.name}}" data-tippy-content="{{t " Posted by"}} {{primary_author.name}}
+                  {{authors autolink="false" from="2" prefix=(t "Among with" ) separator=" , " }}">
+                  {{#if primary_author.profile_image}}
+                  <div style="background-image: url({{img_url primary_author.profile_image size=" xs"}});"></div>
+                  {{else}}
+                  <div style="background-image: url({{asset " images/default-avatar-square-small.jpg"}});"></div>
+                  {{/if}}
+                </a>
+                {{#if featured}}
+                <a href="{{url}}" class="m-article-card__featured js-tooltip" data-tippy-content="{{t " Featured"}}"
+                  aria-label="{{t " Featured"}}">
+                  <span class="icon-star" aria-hidden="true"></span>
+                </a>
+                {{/if}}
+              </div>
+              {{#if primary_tag}}
+              <div class="m-article-card__info">
+                <a href="{{primary_tag.url}}" class="m-article-card__tag">{{primary_tag.name}}</a>
+                {{else}}
+                <div class="m-article-card__info no-tag">
+                  {{/if}}
+                  <a href="{{url}}" class="m-article-card__info-link" aria-label="{{title}}">
+                    <div>
+                      <h2
+                        class="m-article-card__title js-article-card-title {{#unless feature_image}}js-article-card-title-no-image{{/unless}}"
+                        title="{{title}}">
+                        {{title}}
+                      </h2>
+                    </div>
+                    <div class="m-article-card__timestamp">
+                      <span>{{date published_at timeago="true"}}</span>
+                      <span>&bull;</span>
+                      <span>{{reading_time minute=(t "1 min read") minutes=(t "% min read")}}</span>
+                    </div>
+                  </a>
+                </div>
+            </article>
+
+            {{#is "post"}}
+          </div>
+          {{/is}}
+          {{else}}
+          <div class="m-recommended-slider__item glide__slide">
+            <div class="m-heading no-margin">
+              <h3>{{t "No posts found"}}</h3>
+              <p>
+                {{t "Apparently there are no posts at the moment, check again later."}}
+              </p>
+            </div>
+          </div>
+          {{/foreach}}
+          {{/if}}
+          {{/get}}
+          {{/is}}
+        </div>
+        <div style="text-align:center;">
+          <a href="" style="font-size: 1.125rem;font-weight:800;">Show More</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8">col-sm-8</div>
+        <div class="col-sm-4">col-sm-4</div>
+      </div>
+      <div class="row">
+        <div class="col-sm">col-sm</div>
+        <div class="col-sm">col-sm</div>
+        <div class="col-sm">col-sm</div>
+      </div>
+    </div>
+
+    <section style="padding: .2rem 0 1.8rem;text-align: center;">
+      <div>
+        <h1> Center For African Volunteers Strategy for Support to Social Protection - 2021</h1>
+        <div style="text-align: center;margin:40px 0px 20px 0px;">
+          <a href="" style="font-size: 1.125rem;font-weight:800;padding:10px 10px 10px 10px;border: 1px solid;">Show
+            More</a>
+        </div>
+      </div>
+    </section>
+
+    {{/page}}
+  </main>
+
+{{!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs --}}
+{{#contentFor "scripts"}}
+    <script defer src="{{asset "js/page.js"}}"></script>
+    <script defer src="{{asset "js/custom.js"}}"></script>
+{{/contentFor}}
